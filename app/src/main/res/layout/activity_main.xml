@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <EditText
+        android:id="@+id/editIntellect"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:hint="Введите Интеллект"
+        android:inputType="number" />
+
+    <EditText
+        android:id="@+id/editAttention"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:hint="Введите Внимательность"
+        android:inputType="number" />
+
+    <EditText
+        android:id="@+id/editCharm"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:hint="Введите Обаяние"
+        android:inputType="number" />
+
+    <Button
+        android:id="@+id/btnSave"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Сохранить характеристики" />
+</LinearLayout>
