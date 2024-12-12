@@ -1,6 +1,8 @@
 package com.example.myapplication132;
 
-public class Player {
+import java.io.Serializable;
+
+public class Player implements Serializable {
     private int intellect;  // Интеллект
     private int attention;  // Внимательность
     private int charm;      // Обаяние
@@ -37,6 +39,21 @@ public class Player {
 
     public void setCharm(int charm) {
         this.charm = charm;
+    }
+
+    // Проверка условий для интеллекта
+    public boolean checkIntelect() {
+        return intellect > 3;
+    }
+
+    // Проверка условий для внимательности
+    public boolean checkAttention() {
+        return attention > 3;
+    }
+
+    // Проверка условий для обаяния
+    public boolean checkCharm() {
+        return charm > 3;
     }
 
 }

@@ -70,8 +70,11 @@ public class MainActivity extends AppCompatActivity {
         playerRef.setValue(player)
                 .addOnSuccessListener(aVoid -> {
                     Toast.makeText(this, "Характеристики сохранены", Toast.LENGTH_SHORT).show();
-                    // Переход ко второй активности
-                    startActivity(new Intent(MainActivity.this, QuestActivity.class));
+
+                    // Передаем данные о игроке в QuestActivity
+                    Intent intent = new Intent(MainActivity.this, QuestActivity.class);
+                    intent.putExtra("player", player);  // Передаем объект игрока
+                    startActivity(intent);
                 })
                 .addOnFailureListener(e -> Toast.makeText(this, "Ошибка сохранения данных", Toast.LENGTH_SHORT).show());
     }
