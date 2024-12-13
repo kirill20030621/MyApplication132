@@ -1,7 +1,6 @@
 package com.example.myapplication132;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,61 +9,48 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
 import java.util.ArrayList;
 
 public class InterrogationActivity extends AppCompatActivity {
 
     Player player;
     private TextView questText;
-
     private Button btnEvidence;
-
-
     private LinearLayout actionButtonsLayout;
     private DatabaseReference mDatabase;
-
     private ArrayList<String> evidences;
-    private int currentStep = 1; // Начинаем с первого шага квеста
+    private int currentStep = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_interrogation);
 
+        evidences = getIntent().getStringArrayListExtra("evidences");
+        if (evidences == null) {
+            evidences = new ArrayList<>();
+        }
         player = (Player) getIntent().getSerializableExtra("player");
         if (player == null) {
-            player = new Player();  // Если объект не был передан, создаем новый
+            player = new Player();
         }
 
         questText = findViewById(R.id.quest_text);
         actionButtonsLayout = findViewById(R.id.action_buttons_layout);
         btnEvidence = findViewById(R.id.btnEvidence);
-        evidences = new ArrayList<>(); //
 
-
-
-
-
-        btnEvidence.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(InterrogationActivity.this, EvidenceActivity.class);
-                intent.putStringArrayListExtra("evidences", evidences); // Передаем список улик
-                startActivity(intent);
-            }
+        btnEvidence.setOnClickListener(v -> {
+            Intent intent = new Intent(InterrogationActivity.this, EvidenceActivity.class);
+            intent.putStringArrayListExtra("evidences", evidences);
+            startActivity(intent);
         });
 
-
-
         mDatabase = FirebaseDatabase.getInstance().getReference();
-
         loadQuestStep(currentStep);
     }
 
@@ -75,11 +61,7 @@ public class InterrogationActivity extends AppCompatActivity {
                 if (dataSnapshot.exists()) {
                     String text = dataSnapshot.child("text").getValue(String.class);
                     questText.setText(text);
-                    // Загрузка улик для текущего шага
                     loadEvidence(dataSnapshot);
-
-                    // Обновление кнопок действий
-                    Iterable<DataSnapshot> actions = dataSnapshot.child("actions").getChildren();
                     updateActionButtons(dataSnapshot.child("actions").getChildren());
                 } else {
                     Toast.makeText(InterrogationActivity.this, "Конец квеста!", Toast.LENGTH_SHORT).show();
@@ -98,8 +80,8 @@ public class InterrogationActivity extends AppCompatActivity {
         for (DataSnapshot evidenceSnapshot : evidenceSnapshots) {
             String evidence = evidenceSnapshot.getValue(String.class);
             Log.d("InterActivity1121", "Loaded evidence: " + evidence);
-            if (evidence != null && !evidence.isEmpty()) {
-                evidences.add(evidence); // Добавляем улику в список
+            if (evidence != null && !evidence.isEmpty() && !evidences.contains(evidence)) {
+                evidences.add(evidence);
             }
         }
     }
@@ -118,6 +100,7 @@ public class InterrogationActivity extends AppCompatActivity {
             actionButtonsLayout.addView(actionButton);
         }
     }
+
     // Обработка действий
     private void handleAction(String actionId) {
         switch (actionId) {
@@ -145,7 +128,7 @@ public class InterrogationActivity extends AppCompatActivity {
                 currentStep = 3;  // Переход к следующему шагу
                 break;
             case "option2":
-                Log.d("playerintel4", "Player intellect: " + player.getIntellect());
+
                 if(player.checkIntelect()){
                     currentStep = 4;  // Переход к сцене осмотра устройства
                     break;}
@@ -157,6 +140,7 @@ public class InterrogationActivity extends AppCompatActivity {
                 currentStep = 7;  // Переход к следующему шагу
                 break;
             case "option4":
+
                 if(player.checkAttention()){
                     currentStep = 8;  // Переход к сцене осмотра устройства
                     break;}
@@ -216,15 +200,18 @@ public class InterrogationActivity extends AppCompatActivity {
 
             case "report_culprit":
                 Intent intent = new Intent(InterrogationActivity.this, FinalActivity.class);
+                intent.putStringArrayListExtra("evidences", evidences);
                 startActivity(intent);
-                finish();
+
                 break;
 
 
             case "go_back":
                 Intent intent2 = new Intent(InterrogationActivity.this, QuestActivity.class);
+                intent2.putExtra("player", player); // Передаем объект player
+                intent2.putStringArrayListExtra("evidences", evidences);
                 startActivity(intent2);
-                finish();
+
 
                 break;
 
@@ -239,5 +226,4 @@ public class InterrogationActivity extends AppCompatActivity {
         // Загрузка нового шага
         loadQuestStep(currentStep);
     }
-
 }

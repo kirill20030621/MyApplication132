@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -15,9 +17,16 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+
 public class FinalActivity extends AppCompatActivity {
     private TextView questText;
     private LinearLayout actionButtonsLayout;
+
+    private Button btnEvidence;
+    private ArrayList<String> evidences;
+
+
     private DatabaseReference mDatabase;
     private int currentStep = 1; // Начинаем с первого шага квеста
 
@@ -28,6 +37,20 @@ public class FinalActivity extends AppCompatActivity {
 
         questText = findViewById(R.id.quest_text);
         actionButtonsLayout = findViewById(R.id.action_buttons_layout);
+        btnEvidence = findViewById(R.id.btnEvidence);
+
+        evidences = getIntent().getStringArrayListExtra("evidences");
+        if (evidences == null) {
+            evidences = new ArrayList<>();
+        }
+
+
+        btnEvidence.setOnClickListener(v -> {
+            Intent intent = new Intent(FinalActivity.this, EvidenceActivity.class);
+            intent.putStringArrayListExtra("evidences", evidences);
+            startActivity(intent);
+        });
+
 
         // Инициализация Firebase
         mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -60,6 +83,17 @@ public class FinalActivity extends AppCompatActivity {
         });
     }
 
+    private void loadEvidence(DataSnapshot dataSnapshot) {
+        Iterable<DataSnapshot> evidenceSnapshots = dataSnapshot.child("evidence").getChildren();
+        for (DataSnapshot evidenceSnapshot : evidenceSnapshots) {
+            String evidence = evidenceSnapshot.getValue(String.class);
+            Log.d("Final1121", "Loaded evidence: " + evidence);
+            if (evidence != null && !evidence.isEmpty() && !evidences.contains(evidence)) {
+                evidences.add(evidence);
+            }
+        }
+    }
+
     // Обновление кнопок действий
     private void updateActionButtons(Iterable<DataSnapshot> actions) {
         actionButtonsLayout.removeAllViews(); // Очистка старых кнопок
@@ -80,24 +114,29 @@ public class FinalActivity extends AppCompatActivity {
     private void handleAction(String actionId) {
         switch (actionId) {
             case "blame_doctor":
+                btnEvidence.setVisibility(View.GONE);
                 currentStep = 2;  // Переход к следующему шагу
                 break;
             case "blame_guard":
+                btnEvidence.setVisibility(View.GONE);
                 currentStep = 2;  // Переход к следующему шагу
                 break;
             case "blame_engineer":
+                btnEvidence.setVisibility(View.GONE);
                 currentStep = 2;  // Переход к следующему шагу
                 break;
             case "blame_assistant":
+                btnEvidence.setVisibility(View.GONE);
                 currentStep = 2;  // Переход к следующему шагу
                 break;
             case "blame_captain":
+                btnEvidence.setVisibility(View.GONE);
                 currentStep = 3;  // Переход к следующему шагу
                 break;
             case "option1":
                 Intent intent = new Intent(FinalActivity.this, MainActivity.class);
                 startActivity(intent);
-                finish();
+
                 break;
 
             case "option2":

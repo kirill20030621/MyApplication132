@@ -5,7 +5,12 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp">
-
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Чтобы начать квест введите свои характеристи.В зависимости от ввееных вами характеристик, сюжет будет развиваться в ту или иную сторону"
+        android:textSize="18dp"
+        />
     <EditText
         android:id="@+id/editIntellect"
         android:layout_width="match_parent"

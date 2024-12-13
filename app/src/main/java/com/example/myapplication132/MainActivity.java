@@ -75,6 +75,7 @@ public class MainActivity extends AppCompatActivity {
                     Intent intent = new Intent(MainActivity.this, QuestActivity.class);
                     intent.putExtra("player", player);  // Передаем объект игрока
                     startActivity(intent);
+
                 })
                 .addOnFailureListener(e -> Toast.makeText(this, "Ошибка сохранения данных", Toast.LENGTH_SHORT).show());
     }

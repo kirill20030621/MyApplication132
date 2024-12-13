@@ -34,7 +34,16 @@ public class QuestActivity extends AppCompatActivity {
         questText = findViewById(R.id.quest_text);
         actionButtonsLayout = findViewById(R.id.action_buttons_layout);
         btnEvidence = findViewById(R.id.btnEvidence);
-        evidences = new ArrayList<>(); // Инициализируем список улик
+
+        evidences = getIntent().getStringArrayListExtra("evidences");
+        if (evidences == null) {
+            evidences = new ArrayList<>();
+        }
+        player = (Player) getIntent().getSerializableExtra("player");
+        if (player == null) {
+            player = new Player();  // Если объект не был передан, создаем новый
+        }
+
 
         Intent intent = getIntent();
         if (intent != null && intent.hasExtra("player")) {
@@ -95,8 +104,8 @@ public class QuestActivity extends AppCompatActivity {
         for (DataSnapshot evidenceSnapshot : evidenceSnapshots) {
             String evidence = evidenceSnapshot.getValue(String.class);
             Log.d("QuestActivity1121", "Loaded evidence: " + evidence);
-            if (evidence != null && !evidence.isEmpty()) {
-                evidences.add(evidence); // Добавляем улику в список
+            if (evidence != null && !evidence.isEmpty() && !evidences.contains(evidence)) {
+                evidences.add(evidence); // Добавляем улику в список, если ее там еще нет
             }
         }
     }
@@ -126,6 +135,9 @@ public class QuestActivity extends AppCompatActivity {
 
             case "go_for_interrogation":
                 Intent intent = new Intent(QuestActivity.this, InterrogationActivity.class);
+                intent.putExtra("player", player); // Передаем объект player
+                intent.putStringArrayListExtra("evidences", evidences);
+
                 startActivity(intent);
                 finish();
 
