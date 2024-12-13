@@ -41,6 +41,10 @@ public class QuestActivity extends AppCompatActivity {
             player = (Player) intent.getSerializableExtra("player");  // Получаем переданный объект
         }
 
+        Intent intent2 = new Intent(QuestActivity.this, InterrogationActivity.class);
+        intent.putExtra("player", player); // Передаем объект player
+
+
         btnEvidence.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -124,6 +128,7 @@ public class QuestActivity extends AppCompatActivity {
                 Intent intent = new Intent(QuestActivity.this, InterrogationActivity.class);
                 startActivity(intent);
                 finish();
+
                 break;
 
             case "back_to_lab":
@@ -137,10 +142,10 @@ public class QuestActivity extends AppCompatActivity {
                 currentStep = 5;  // Переход к сцене осмотра устройства
                 break;
             case "option2":
-                Log.d("playerintel4", "Player intellect: " + player.getIntellect());
+                //Log.d("playerintel4", "Player intellect: " + player.getIntellect());
                 if(player.checkIntelect()){
-                currentStep = 6;  // Переход к сцене осмотра устройства
-                break;}
+                    currentStep = 6;  // Переход к сцене осмотра устройства
+                    break;}
                 else {
                     currentStep = 7;
                     break;
@@ -156,8 +161,13 @@ public class QuestActivity extends AppCompatActivity {
                 currentStep = 9;  // Переход к сцене осмотра устройства
                 break;
             case "option4":
-                currentStep = 11;  // Переход к сцене осмотра устройства
-                break;
+                if(player.checkAttention()){
+                    currentStep = 10;  // Переход к сцене осмотра устройства
+                    break;}
+                else {
+                    currentStep = 11;
+                    break;
+                }
             case "back2":
                 currentStep = 8;  // Переход к сцене осмотра устройства
                 break;
@@ -169,8 +179,13 @@ public class QuestActivity extends AppCompatActivity {
                 currentStep = 13;  // Переход к сцене осмотра устройства
                 break;
             case "option6":
-                currentStep = 15;  // Переход к сцене осмотра устройства
-                break;
+                if(player.checkCharm()){
+                    currentStep = 14;  // Переход к сцене осмотра устройства
+                    break;}
+                else {
+                    currentStep = 15;
+                    break;
+                }
             case "back3":
                 currentStep = 12;  // Переход к сцене осмотра устройства
                 break;
