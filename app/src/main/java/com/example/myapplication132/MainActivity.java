@@ -20,7 +20,6 @@ public class MainActivity extends AppCompatActivity {
 
     private EditText editIntellect, editAttention, editCharm;
     private Button btnSave;
-
     private FirebaseDatabase database;
     private DatabaseReference playerRef;
 
@@ -43,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void savePlayerAttributes() {
-        // Считывание введенных данных
+        // cчитывание введенных данных
         String intellectStr = editIntellect.getText().toString();
         String attentionStr = editAttention.getText().toString();
         String charmStr = editCharm.getText().toString();
@@ -57,22 +56,21 @@ public class MainActivity extends AppCompatActivity {
         int attention = Integer.parseInt(attentionStr);
         int charm = Integer.parseInt(charmStr);
 
-        // Проверка на сумму не более 10
+        // gроверка на сумму не более 10
         if (intellect + attention + charm > 10) {
             Toast.makeText(this, "Сумма характеристик не должна превышать 10", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        // Создание объекта игрока
+        // cоздание объекта игрока
         Player player = new Player(intellect, attention, charm);
 
-        // Сохранение данных в Firebase
+        // cохранение данных в Firebase
         playerRef.setValue(player)
                 .addOnSuccessListener(aVoid -> {
                     Toast.makeText(this, "Характеристики сохранены", Toast.LENGTH_SHORT).show();
 
-                    // Передаем данные о игроке в QuestActivity
-                    Intent intent = new Intent(MainActivity.this, QuestActivity.class);
+                    Intent intent = new Intent(MainActivity.this, StageActivity1.class);
                     intent.putExtra("player", player);  // Передаем объект игрока
                     startActivity(intent);
 

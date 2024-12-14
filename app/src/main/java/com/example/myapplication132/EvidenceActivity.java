@@ -29,21 +29,21 @@ public class EvidenceActivity extends AppCompatActivity {
         evidenceList = findViewById(R.id.evidence_list);
         btnBackToQuest = findViewById(R.id.btn_back_to_quest);
 
-        // Инициализация Firebase
+        // инициализация Firebase
         databaseReference = FirebaseDatabase.getInstance().getReference("evidences");
 
         loadEvidences();
 
-        // Кнопка возвращения
+        // кнопка возвращения
         btnBackToQuest.setOnClickListener(v -> finish());
     }
 
     private void loadEvidences() {
-        // Получаем список улик из Intent
+        // получаем список улик из Intent
         ArrayList<String> evidences = getIntent().getStringArrayListExtra("evidences");
 
         if (evidences != null && !evidences.isEmpty()) {
-            // Добавляем все улики в список
+            // добавляем все улики в список
             for (String evidence : evidences) {
                 addEvidenceToView(evidence);
             }

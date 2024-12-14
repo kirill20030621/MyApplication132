@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -16,7 +15,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
-public class InterrogationActivity extends AppCompatActivity {
+public class StageActivity3 extends AppCompatActivity {
 
     Player player;
     private TextView questText;
@@ -29,7 +28,7 @@ public class InterrogationActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_interrogation);
+        setContentView(R.layout.activity_stage3);
 
         evidences = getIntent().getStringArrayListExtra("evidences");
         if (evidences == null) {
@@ -45,7 +44,7 @@ public class InterrogationActivity extends AppCompatActivity {
         btnEvidence = findViewById(R.id.btnEvidence);
 
         btnEvidence.setOnClickListener(v -> {
-            Intent intent = new Intent(InterrogationActivity.this, EvidenceActivity.class);
+            Intent intent = new Intent(StageActivity3.this, EvidenceActivity.class);
             intent.putStringArrayListExtra("evidences", evidences);
             startActivity(intent);
         });
@@ -64,13 +63,13 @@ public class InterrogationActivity extends AppCompatActivity {
                     loadEvidence(dataSnapshot);
                     updateActionButtons(dataSnapshot.child("actions").getChildren());
                 } else {
-                    Toast.makeText(InterrogationActivity.this, "Конец квеста!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(StageActivity3.this, "Конец квеста!", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(InterrogationActivity.this, "Ошибка загрузки!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(StageActivity3.this, "Ошибка загрузки!", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -79,7 +78,7 @@ public class InterrogationActivity extends AppCompatActivity {
         Iterable<DataSnapshot> evidenceSnapshots = dataSnapshot.child("evidence").getChildren();
         for (DataSnapshot evidenceSnapshot : evidenceSnapshots) {
             String evidence = evidenceSnapshot.getValue(String.class);
-            Log.d("InterActivity1121", "Loaded evidence: " + evidence);
+            //Log.d("InterActivity1121", "Loaded evidence: " + evidence);
             if (evidence != null && !evidence.isEmpty() && !evidences.contains(evidence)) {
                 evidences.add(evidence);
             }
@@ -101,81 +100,81 @@ public class InterrogationActivity extends AppCompatActivity {
         }
     }
 
-    // Обработка действий
+    // обработка действий
     private void handleAction(String actionId) {
         switch (actionId) {
             case "back_to_suspects":
-                currentStep = 1;  // Переход к следующему шагу
+                currentStep = 1;
                 break;
 
             case "back":
-                currentStep = 2;  // Переход к следующему шагу
+                currentStep = 2;
                 break;
             case "back2":
-                currentStep = 6;  // Переход к следующему шагу
+                currentStep = 6;
                 break;
             case "back3":
-                currentStep = 10;  // Переход к следующему шагу
+                currentStep = 10;
                 break;
             case "back4":
-                currentStep = 14;  // Переход к следующему шагу
+                currentStep = 14;
                 break;
             case "back5":
-                currentStep = 18;  // Переход к следующему шагу
+                currentStep = 18;
                 break;
 
             case "option1":
-                currentStep = 3;  // Переход к следующему шагу
+                currentStep = 3;
                 break;
             case "option2":
 
                 if(player.checkIntelect()){
-                    currentStep = 4;  // Переход к сцене осмотра устройства
+                    currentStep = 4;
                     break;}
                 else {
                     currentStep = 5;
                     break;
                 }
             case "option3":
-                currentStep = 7;  // Переход к следующему шагу
+                currentStep = 7;
                 break;
             case "option4":
 
                 if(player.checkAttention()){
-                    currentStep = 8;  // Переход к сцене осмотра устройства
+                    currentStep = 8;
                     break;}
                 else {
                     currentStep = 9;
                     break;
                 }
             case "option5":
-                currentStep = 11;  // Переход к следующему шагу
+                currentStep = 11;
                 break;
             case "option6":
                 if(player.checkCharm()){
-                    currentStep = 12;  // Переход к сцене осмотра устройства
+                    currentStep = 12;
                     break;}
                 else {
                     currentStep = 13;
                     break;
                 }
             case "option7":
-                currentStep = 15;  // Переход к следующему шагу
+                currentStep = 15;
                 break;
             case "option8":
                 if(player.checkIntelect()){
-                    currentStep = 16;  // Переход к сцене осмотра устройства
+                    currentStep = 16;
                     break;}
                 else {
                     currentStep = 17;
                     break;
                 }
             case "option9":
-                currentStep = 19;  // Переход к следующему шагу
+                currentStep = 19;
                 break;
             case "option10":
                 if(player.checkCharm()){
-                    currentStep = 20;  // Переход к сцене осмотра устройства
+                    currentStep = 20;
                     break;}
                 else {
                     currentStep = 21;
@@ -183,23 +182,23 @@ public class InterrogationActivity extends AppCompatActivity {
                 }
 
             case "go_doctor":
-                currentStep = 2;  // Переход к следующему шагу
+                currentStep = 2;
                 break;
             case "go_guard":
-                currentStep = 6;  // Переход к следующему шагу
+                currentStep = 6;
                 break;
             case "go_engineer":
-                currentStep = 10;  // Переход к следующему шагу
+                currentStep = 10;
                 break;
             case "go_assistant":
-                currentStep = 14;  // Переход к следующему шагу
+                currentStep = 14;
                 break;
             case "go_captain":
-                currentStep = 18;  // Переход к следующему шагу
+                currentStep = 18;
                 break;
 
             case "report_culprit":
-                Intent intent = new Intent(InterrogationActivity.this, FinalActivity.class);
+                Intent intent = new Intent(StageActivity3.this, StageActivity4.class);
                 intent.putStringArrayListExtra("evidences", evidences);
                 startActivity(intent);
 
@@ -207,23 +206,18 @@ public class InterrogationActivity extends AppCompatActivity {
 
 
             case "go_back":
-                Intent intent2 = new Intent(InterrogationActivity.this, QuestActivity.class);
-                intent2.putExtra("player", player); // Передаем объект player
+                Intent intent2 = new Intent(StageActivity3.this, StageActivity2.class);
+                intent2.putExtra("player", player); // передаем объект player
                 intent2.putStringArrayListExtra("evidences", evidences);
                 startActivity(intent2);
-
-
                 break;
-
-
-
 
             default:
                 Toast.makeText(this, "Неизвестное действие!", Toast.LENGTH_SHORT).show();
                 return;  // Прерывание выполнения, если действие неизвестно
         }
 
-        // Загрузка нового шага
+        // загрузка нового шага
         loadQuestStep(currentStep);
     }
 }

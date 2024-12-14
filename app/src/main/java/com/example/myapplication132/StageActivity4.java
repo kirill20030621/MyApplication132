@@ -19,21 +19,20 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class FinalActivity extends AppCompatActivity {
+public class StageActivity4 extends AppCompatActivity {
     private TextView questText;
     private LinearLayout actionButtonsLayout;
 
     private Button btnEvidence;
     private ArrayList<String> evidences;
 
-
     private DatabaseReference mDatabase;
-    private int currentStep = 1; // Начинаем с первого шага квеста
+    private int currentStep = 1; // начинаем с первого шага квеста
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_final);
+        setContentView(R.layout.activity_stage4);
 
         questText = findViewById(R.id.quest_text);
         actionButtonsLayout = findViewById(R.id.action_buttons_layout);
@@ -46,39 +45,39 @@ public class FinalActivity extends AppCompatActivity {
 
 
         btnEvidence.setOnClickListener(v -> {
-            Intent intent = new Intent(FinalActivity.this, EvidenceActivity.class);
+            Intent intent = new Intent(StageActivity4.this, EvidenceActivity.class);
             intent.putStringArrayListExtra("evidences", evidences);
             startActivity(intent);
         });
 
 
-        // Инициализация Firebase
+        // инициализация Firebase
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
-        // Загружаем первый шаг
+        // загружаем первый шаг
         loadQuestStep(currentStep);
     }
 
-    // Загрузка шага квеста
+    // загрузка шага квеста
     private void loadQuestStep(int step) {
         mDatabase.child("quest_steps3").child(String.valueOf(step)).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
                     String text = dataSnapshot.child("text").getValue(String.class);
-                    questText.setText(text);  // Обновление текста
+                    questText.setText(text);  // обновление текста
 
-                    // Обновление кнопок действий
+                    // обновление кнопок действий
                     Iterable<DataSnapshot> actions = dataSnapshot.child("actions").getChildren();
                     updateActionButtons(actions);
                 } else {
-                    Toast.makeText(FinalActivity.this, "Конец квеста!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(StageActivity4.this, "Конец квеста!", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(FinalActivity.this, "Ошибка загрузки!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(StageActivity4.this, "Ошибка загрузки!", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -87,16 +86,16 @@ public class FinalActivity extends AppCompatActivity {
         Iterable<DataSnapshot> evidenceSnapshots = dataSnapshot.child("evidence").getChildren();
         for (DataSnapshot evidenceSnapshot : evidenceSnapshots) {
             String evidence = evidenceSnapshot.getValue(String.class);
-            Log.d("Final1121", "Loaded evidence: " + evidence);
+            //Log.d("Final1121", "Loaded evidence: " + evidence);
             if (evidence != null && !evidence.isEmpty() && !evidences.contains(evidence)) {
                 evidences.add(evidence);
             }
         }
     }
 
-    // Обновление кнопок действий
+    // обновление кнопок действий
     private void updateActionButtons(Iterable<DataSnapshot> actions) {
-        actionButtonsLayout.removeAllViews(); // Очистка старых кнопок
+        actionButtonsLayout.removeAllViews(); // очистка старых кнопок
 
         for (DataSnapshot actionSnapshot : actions) {
             String actionText = actionSnapshot.child("text").getValue(String.class);
@@ -106,7 +105,7 @@ public class FinalActivity extends AppCompatActivity {
             actionButton.setText(actionText);
             actionButton.setOnClickListener(v -> handleAction(actionId));
 
-            actionButtonsLayout.addView(actionButton);  // Добавление кнопки на экран
+            actionButtonsLayout.addView(actionButton);  // добавление кнопки на экран
         }
     }
 
@@ -115,45 +114,40 @@ public class FinalActivity extends AppCompatActivity {
         switch (actionId) {
             case "blame_doctor":
                 btnEvidence.setVisibility(View.GONE);
-                currentStep = 2;  // Переход к следующему шагу
+                currentStep = 2;  // переход к следующему шагу
                 break;
             case "blame_guard":
                 btnEvidence.setVisibility(View.GONE);
-                currentStep = 2;  // Переход к следующему шагу
+                currentStep = 2;  // переход к следующему шагу
                 break;
             case "blame_engineer":
                 btnEvidence.setVisibility(View.GONE);
-                currentStep = 2;  // Переход к следующему шагу
+                currentStep = 2;  // переход к следующему шагу
                 break;
             case "blame_assistant":
                 btnEvidence.setVisibility(View.GONE);
-                currentStep = 2;  // Переход к следующему шагу
+                currentStep = 2;  // переход к следующему шагу
                 break;
             case "blame_captain":
                 btnEvidence.setVisibility(View.GONE);
-                currentStep = 3;  // Переход к следующему шагу
+                currentStep = 3;  // переход к следующему шагу
                 break;
             case "option1":
-                Intent intent = new Intent(FinalActivity.this, MainActivity.class);
+                Intent intent = new Intent(StageActivity4.this, MainActivity.class);
                 startActivity(intent);
 
                 break;
 
             case "option2":
-                currentStep = 12;  // Переход к следующему шагу
+                currentStep = 12;  // переход к следующему шагу
                 break;
-
-
-
-
-
 
             default:
                 Toast.makeText(this, "Неизвестное действие!", Toast.LENGTH_SHORT).show();
-                return;  // Прерывание выполнения, если действие неизвестно
+                return;  // прерывание выполнения, если действие неизвестно
         }
 
-        // Загрузка нового шага
+        // загрузка нового шага
         loadQuestStep(currentStep);
     }
 }

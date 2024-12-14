@@ -16,20 +16,20 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
-public class QuestActivity extends AppCompatActivity {
+public class StageActivity2 extends AppCompatActivity {
 
     Player player;
     private Button btnEvidence;
     private TextView questText;
     private LinearLayout actionButtonsLayout;
     private DatabaseReference mDatabase;
-    private int currentStep = 1; // Начинаем с первого шага квеста
-    private ArrayList<String> evidences; // Список улик для передачи в EvidenceActivity
+    private int currentStep = 3; // начинаем с первого шага квеста
+    private ArrayList<String> evidences; // список улик для передачи в EvidenceActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_quest);
+        setContentView(R.layout.activity_stage2);
 
         questText = findViewById(R.id.quest_text);
         actionButtonsLayout = findViewById(R.id.action_buttons_layout);
@@ -41,78 +41,68 @@ public class QuestActivity extends AppCompatActivity {
         }
         player = (Player) getIntent().getSerializableExtra("player");
         if (player == null) {
-            player = new Player();  // Если объект не был передан, создаем новый
+            player = new Player();  // eсли объект не был передан, создаем новый
         }
-
-
-        Intent intent = getIntent();
-        if (intent != null && intent.hasExtra("player")) {
-            player = (Player) intent.getSerializableExtra("player");  // Получаем переданный объект
-        }
-
-        Intent intent2 = new Intent(QuestActivity.this, InterrogationActivity.class);
-        intent.putExtra("player", player); // Передаем объект player
-
 
         btnEvidence.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Передаем список улик в EvidenceActivity
-                Intent intent = new Intent(QuestActivity.this, EvidenceActivity.class);
+                // передаем список улик в EvidenceActivity
+                Intent intent = new Intent(StageActivity2.this, EvidenceActivity.class);
                 intent.putStringArrayListExtra("evidences", evidences); // Передаем список улик
                 startActivity(intent);
             }
         });
 
-        // Инициализация Firebase
+        // инициализация Firebase
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
-        // Загружаем первый шаг
+        // загружаем первый шаг
         loadQuestStep(currentStep);
     }
 
-    // Загрузка шага квеста
+    // загрузка шага квеста
     private void loadQuestStep(int step) {
         mDatabase.child("quest_steps").child(String.valueOf(step)).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
                     String text = dataSnapshot.child("text").getValue(String.class);
-                    questText.setText(text);  // Обновление текста
+                    questText.setText(text);  // обновление текста
 
-                    // Загрузка улик для текущего шага
+                    // загрузка улик для текущего шага
                     loadEvidence(dataSnapshot);
 
-                    // Обновление кнопок действий
+                    // обновление кнопок действий
                     Iterable<DataSnapshot> actions = dataSnapshot.child("actions").getChildren();
                     updateActionButtons(actions);
                 } else {
-                    Toast.makeText(QuestActivity.this, "Конец квеста!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(StageActivity2.this, "Конец квеста!", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(QuestActivity.this, "Ошибка загрузки!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(StageActivity2.this, "Ошибка загрузки!", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-    // Загрузка улик для текущего шага
+    // загрузка улик для текущего шага
     private void loadEvidence(DataSnapshot dataSnapshot) {
         Iterable<DataSnapshot> evidenceSnapshots = dataSnapshot.child("evidence").getChildren();
         for (DataSnapshot evidenceSnapshot : evidenceSnapshots) {
             String evidence = evidenceSnapshot.getValue(String.class);
             Log.d("QuestActivity1121", "Loaded evidence: " + evidence);
             if (evidence != null && !evidence.isEmpty() && !evidences.contains(evidence)) {
-                evidences.add(evidence); // Добавляем улику в список, если ее там еще нет
+                evidences.add(evidence); // добавляем улику в список, если ее там еще нет
             }
         }
     }
 
-    // Обновление кнопок действий
+    // обновление кнопок действий
     private void updateActionButtons(Iterable<DataSnapshot> actions) {
-        actionButtonsLayout.removeAllViews(); // Очистка старых кнопок
+        actionButtonsLayout.removeAllViews(); // очистка старых кнопок
 
         for (DataSnapshot actionSnapshot : actions) {
             String actionText = actionSnapshot.child("text").getValue(String.class);
@@ -122,7 +112,7 @@ public class QuestActivity extends AppCompatActivity {
             actionButton.setText(actionText);
             actionButton.setOnClickListener(v -> handleAction(actionId));
 
-            actionButtonsLayout.addView(actionButton);  // Добавление кнопки на экран
+            actionButtonsLayout.addView(actionButton);  // добавление кнопки на экран
         }
     }
 
@@ -130,81 +120,74 @@ public class QuestActivity extends AppCompatActivity {
     private void handleAction(String actionId) {
         switch (actionId) {
             case "go_to_next_step":
-                currentStep++;  // Переход к следующему шагу
+                currentStep++;  // переход к следующему шагу
                 break;
 
             case "go_for_interrogation":
-                Intent intent = new Intent(QuestActivity.this, InterrogationActivity.class);
-                intent.putExtra("player", player); // Передаем объект player
+                Intent intent = new Intent(StageActivity2.this, StageActivity3.class);
+                intent.putExtra("player", player); // передаем объект player
                 intent.putStringArrayListExtra("evidences", evidences);
-
                 startActivity(intent);
-                finish();
-
                 break;
 
             case "back_to_lab":
-                currentStep = 3;  // Переход к сцене осмотра устройства
+                currentStep = 3;
                 break;
-
             case "inspect_device":
-                currentStep = 4;  // Переход к сцене осмотра устройства
+                currentStep = 4;
                 break;
             case "option1":
-                currentStep = 5;  // Переход к сцене осмотра устройства
+                currentStep = 5;
                 break;
             case "option2":
                 //Log.d("playerintel4", "Player intellect: " + player.getIntellect());
                 if(player.checkIntelect()){
-                    currentStep = 6;  // Переход к сцене осмотра устройства
+                    currentStep = 6;
                     break;}
                 else {
                     currentStep = 7;
                     break;
                 }
             case "back":
-                currentStep = 4;  // Переход к сцене осмотра устройства
+                currentStep = 4;
                 break;
-
             case "check_floor":
-                currentStep = 8;  // Переход к сцене осмотра устройства
+                currentStep = 8;
                 break;
             case "option3":
-                currentStep = 9;  // Переход к сцене осмотра устройства
+                currentStep = 9;
                 break;
             case "option4":
                 if(player.checkAttention()){
-                    currentStep = 10;  // Переход к сцене осмотра устройства
+                    currentStep = 10;
                     break;}
                 else {
                     currentStep = 11;
                     break;
                 }
             case "back2":
-                currentStep = 8;  // Переход к сцене осмотра устройства
+                currentStep = 8;
                 break;
-
             case "talk_to_guard":
-                currentStep = 12;  // Переход к сцене осмотра устройства
+                currentStep = 12;
                 break;
             case "option5":
-                currentStep = 13;  // Переход к сцене осмотра устройства
+                currentStep = 13;
                 break;
             case "option6":
                 if(player.checkCharm()){
-                    currentStep = 14;  // Переход к сцене осмотра устройства
+                    currentStep = 14;
                     break;}
                 else {
                     currentStep = 15;
                     break;
                 }
             case "back3":
-                currentStep = 12;  // Переход к сцене осмотра устройства
+                currentStep = 12;
                 break;
-
             default:
                 Toast.makeText(this, "Неизвестное действие!", Toast.LENGTH_SHORT).show();
-                return;  // Прерывание выполнения, если действие неизвестно
+                return;  // прерывание выполнения, если действие неизвестно
         }
 
         // Загрузка нового шага
