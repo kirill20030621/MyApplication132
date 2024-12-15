@@ -56,6 +56,7 @@ public class EvidenceActivity extends AppCompatActivity {
         TextView evidenceText = new TextView(this);
         evidenceText.setText("• " + evidence);
         evidenceText.setTextSize(18);
+        evidenceText.setTextColor(getResources().getColor(R.color.white));
         evidenceText.setPadding(0, 8, 0, 8);
         evidenceList.addView(evidenceText);
     }
@@ -64,6 +65,7 @@ public class EvidenceActivity extends AppCompatActivity {
         TextView emptyText = new TextView(this);
         emptyText.setText("Улик пока нет.");
         emptyText.setTextSize(18);
+        emptyText.setTextColor(getResources().getColor(R.color.white));
         evidenceList.addView(emptyText);
     }
 }

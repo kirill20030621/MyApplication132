@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -132,6 +133,7 @@ public class StageActivity2 extends AppCompatActivity {
 
             case "back_to_lab":
                 currentStep = 3;
+
                 break;
             case "inspect_device":
                 currentStep = 4;
@@ -193,4 +195,6 @@ public class StageActivity2 extends AppCompatActivity {
         // Загрузка нового шага
         loadQuestStep(currentStep);
     }
+
+
 }

@@ -2,13 +2,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:background="@drawable/fon3"
+    android:textColor="@color/white">
 
     <TextView
         android:id="@+id/evidence_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Собранные Улики"
+
+        android:textColor="@color/white"
         android:textSize="20sp"
         android:textStyle="bold"
         android:paddingBottom="8dp" />
@@ -16,13 +20,17 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
+
         android:layout_weight="1">
 
         <LinearLayout
             android:id="@+id/evidence_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+
+            android:textColor="@color/white"
             android:orientation="vertical" />
+
     </ScrollView>
 
     <Button
