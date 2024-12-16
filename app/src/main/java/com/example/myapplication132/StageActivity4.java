@@ -114,32 +114,33 @@ public class StageActivity4 extends AppCompatActivity {
         switch (actionId) {
             case "blame_doctor":
                 btnEvidence.setVisibility(View.GONE);
-                currentStep = 2;  // переход к следующему шагу
+                currentStep = 2;
                 break;
             case "blame_guard":
                 btnEvidence.setVisibility(View.GONE);
-                currentStep = 2;  // переход к следующему шагу
+                currentStep = 2;
                 break;
             case "blame_engineer":
                 btnEvidence.setVisibility(View.GONE);
-                currentStep = 2;  // переход к следующему шагу
+                currentStep = 2;
                 break;
             case "blame_assistant":
                 btnEvidence.setVisibility(View.GONE);
-                currentStep = 2;  // переход к следующему шагу
+                currentStep = 2;
                 break;
             case "blame_captain":
                 btnEvidence.setVisibility(View.GONE);
-                currentStep = 3;  // переход к следующему шагу
+                currentStep = 3;
                 break;
             case "option1":
                 Intent intent = new Intent(StageActivity4.this, MainActivity.class);
                 startActivity(intent);
-
                 break;
 
+
             case "option2":
-                currentStep = 12;  // переход к следующему шагу
+                Intent intent2 = new Intent(StageActivity4.this, MainActivity.class);
+                startActivity(intent2);
                 break;
 
             default:
