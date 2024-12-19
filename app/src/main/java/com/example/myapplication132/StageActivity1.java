@@ -136,8 +136,6 @@ public class StageActivity1 extends AppCompatActivity {
         if (imageResId != 0) {
             imageView.setVisibility(View.VISIBLE);  // Показываем изображение
             imageView.setImageResource(imageResId);  // Загружаем изображение
-        } else {
-            Log.e("StageActivity", "Image not found: " + imageName);
         }
     }
 }

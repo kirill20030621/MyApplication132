@@ -97,7 +97,6 @@ public class StageActivity2 extends AppCompatActivity {
         Iterable<DataSnapshot> evidenceSnapshots = dataSnapshot.child("evidence").getChildren();
         for (DataSnapshot evidenceSnapshot : evidenceSnapshots) {
             String evidence = evidenceSnapshot.getValue(String.class);
-            Log.d("QuestActivity1121", "Loaded evidence: " + evidence);
             if (evidence != null && !evidence.isEmpty() && !evidences.contains(evidence)) {
                 evidences.add(evidence); // добавляем улику в список, если ее там еще нет
             }
