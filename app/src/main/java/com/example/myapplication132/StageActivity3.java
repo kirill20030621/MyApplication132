@@ -119,6 +119,7 @@ public class StageActivity3 extends AppCompatActivity {
                 break;
             case "back2":
                 currentStep = 6;
+                changeImage("stage3_6");
                 break;
             case "back3":
                 currentStep = 10;
@@ -130,6 +131,7 @@ public class StageActivity3 extends AppCompatActivity {
                 break;
             case "back5":
                 currentStep = 18;
+                changeImage("stage3_18");
                 break;
 
             case "option1":
@@ -149,14 +151,17 @@ public class StageActivity3 extends AppCompatActivity {
                 }
             case "option3":
                 currentStep = 7;
+                changeImage("stage3_6");
                 break;
             case "option4":
 
                 if(player.checkAttention()){
                     currentStep = 8;
+                    changeImage("stage3_6");
                     break;}
                 else {
                     currentStep = 9;
+                    changeImage("stage3_6");
                     break;
                 }
             case "option5":
@@ -189,13 +194,16 @@ public class StageActivity3 extends AppCompatActivity {
                 }
             case "option9":
                 currentStep = 19;
+                changeImage("stage3_18");
                 break;
             case "option10":
                 if(player.checkCharm()){
                     currentStep = 20;
+                    changeImage("stage3_18");
                     break;}
                 else {
                     currentStep = 21;
+                    changeImage("stage3_18");
                     break;
                 }
 
@@ -206,6 +214,7 @@ public class StageActivity3 extends AppCompatActivity {
                 break;
             case "go_guard":
                 currentStep = 6;
+                changeImage("stage3_6");
                 break;
             case "go_engineer":
                 currentStep = 10;
@@ -217,6 +226,7 @@ public class StageActivity3 extends AppCompatActivity {
                 break;
             case "go_captain":
                 currentStep = 18;
+                changeImage("stage3_18");
                 break;
 
             case "report_culprit":

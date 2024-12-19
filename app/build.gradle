@@ -27,6 +27,24 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+
+            // Задайте пользовательское имя APK-файла
+            applicationVariants.all { variant ->
+                variant.outputs.all { output ->
+                    def appName = "Detective quests"
+                    def versionName = variant.versionName
+                    def buildType = variant.buildType.name
+                    def newFileName = "${appName}.apk"
+                    output.outputFileName = newFileName
+                }
+            }
+        }
+    }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8

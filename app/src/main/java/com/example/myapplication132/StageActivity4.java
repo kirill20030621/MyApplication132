@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -49,6 +50,8 @@ public class StageActivity4 extends AppCompatActivity {
             intent.putStringArrayListExtra("evidences", evidences);
             startActivity(intent);
         });
+
+        changeImage("stage4_1");
 
 
         // инициализация Firebase
@@ -111,26 +114,32 @@ public class StageActivity4 extends AppCompatActivity {
 
     // Обработка действий
     private void handleAction(String actionId) {
+        ImageView imageView = findViewById(R.id.imageView);
         switch (actionId) {
             case "blame_doctor":
                 btnEvidence.setVisibility(View.GONE);
                 currentStep = 2;
+                changeImage("stage4_1");
                 break;
             case "blame_guard":
                 btnEvidence.setVisibility(View.GONE);
                 currentStep = 2;
+                changeImage("stage4_1");
                 break;
             case "blame_engineer":
                 btnEvidence.setVisibility(View.GONE);
                 currentStep = 2;
+                changeImage("stage4_1");
                 break;
             case "blame_assistant":
                 btnEvidence.setVisibility(View.GONE);
                 currentStep = 2;
+                changeImage("stage4_1");
                 break;
             case "blame_captain":
                 btnEvidence.setVisibility(View.GONE);
                 currentStep = 3;
+                changeImage("stage4_1");
                 break;
             case "option1":
                 Intent intent = new Intent(StageActivity4.this, MainActivity.class);
@@ -150,5 +159,16 @@ public class StageActivity4 extends AppCompatActivity {
 
         // загрузка нового шага
         loadQuestStep(currentStep);
+    }
+
+    private void changeImage(String imageName) {
+        ImageView imageView = findViewById(R.id.imageView);  // Получаем ссылку на ImageView
+
+        // Преобразуем имя изображения в ресурс из папки drawable
+        int imageResId = getResources().getIdentifier(imageName, "drawable", getPackageName());
+        if (imageResId != 0) {
+            imageView.setVisibility(View.VISIBLE);  // Показываем изображение
+            imageView.setImageResource(imageResId);  // Загружаем изображение
+        }
     }
 }
