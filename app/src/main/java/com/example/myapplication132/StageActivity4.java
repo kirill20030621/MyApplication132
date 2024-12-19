@@ -120,26 +120,31 @@ public class StageActivity4 extends AppCompatActivity {
                 btnEvidence.setVisibility(View.GONE);
                 currentStep = 2;
                 changeImage("stage4_1");
+                Toast.makeText(this, "Квест провален!", Toast.LENGTH_SHORT).show();
                 break;
             case "blame_guard":
                 btnEvidence.setVisibility(View.GONE);
                 currentStep = 2;
                 changeImage("stage4_1");
+                Toast.makeText(this, "Квест провален!", Toast.LENGTH_SHORT).show();
                 break;
             case "blame_engineer":
                 btnEvidence.setVisibility(View.GONE);
                 currentStep = 2;
                 changeImage("stage4_1");
+                Toast.makeText(this, "Квест провален!", Toast.LENGTH_SHORT).show();
                 break;
             case "blame_assistant":
                 btnEvidence.setVisibility(View.GONE);
                 currentStep = 2;
                 changeImage("stage4_1");
+                Toast.makeText(this, "Квест провален!", Toast.LENGTH_SHORT).show();
                 break;
             case "blame_captain":
                 btnEvidence.setVisibility(View.GONE);
                 currentStep = 3;
                 changeImage("stage4_1");
+                Toast.makeText(this, "Квест завершен!", Toast.LENGTH_SHORT).show();
                 break;
             case "option1":
                 Intent intent = new Intent(StageActivity4.this, MainActivity.class);
