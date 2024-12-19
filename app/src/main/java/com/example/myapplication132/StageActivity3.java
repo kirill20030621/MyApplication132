@@ -4,7 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -48,6 +50,8 @@ public class StageActivity3 extends AppCompatActivity {
             intent.putStringArrayListExtra("evidences", evidences);
             startActivity(intent);
         });
+
+        changeImage("stage2_3");
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
         loadQuestStep(currentStep);
@@ -102,22 +106,27 @@ public class StageActivity3 extends AppCompatActivity {
 
     // обработка действий
     private void handleAction(String actionId) {
+        ImageView imageView = findViewById(R.id.imageView);
         switch (actionId) {
             case "back_to_suspects":
                 currentStep = 1;
+                changeImage("stage2_3");
                 break;
 
             case "back":
                 currentStep = 2;
+                changeImage("stage3_2");
                 break;
             case "back2":
                 currentStep = 6;
                 break;
             case "back3":
                 currentStep = 10;
+                changeImage("stage3_10");
                 break;
             case "back4":
                 currentStep = 14;
+                changeImage("stage3_14");
                 break;
             case "back5":
                 currentStep = 18;
@@ -125,14 +134,17 @@ public class StageActivity3 extends AppCompatActivity {
 
             case "option1":
                 currentStep = 3;
+                changeImage("stage3_2");
                 break;
             case "option2":
 
                 if(player.checkIntelect()){
                     currentStep = 4;
+                    changeImage("stage3_2");
                     break;}
                 else {
                     currentStep = 5;
+                    changeImage("stage3_2");
                     break;
                 }
             case "option3":
@@ -149,24 +161,30 @@ public class StageActivity3 extends AppCompatActivity {
                 }
             case "option5":
                 currentStep = 11;
+                changeImage("stage3_10");
                 break;
             case "option6":
                 if(player.checkCharm()){
                     currentStep = 12;
+                    changeImage("stage3_10");
                     break;}
                 else {
                     currentStep = 13;
+                    changeImage("stage3_10");
                     break;
                 }
             case "option7":
                 currentStep = 15;
+                changeImage("stage3_14");
                 break;
             case "option8":
                 if(player.checkIntelect()){
                     currentStep = 16;
+                    changeImage("stage3_14");
                     break;}
                 else {
                     currentStep = 17;
+                    changeImage("stage3_14");
                     break;
                 }
             case "option9":
@@ -183,15 +201,19 @@ public class StageActivity3 extends AppCompatActivity {
 
             case "go_doctor":
                 currentStep = 2;
+                changeImage("stage3_2");
+
                 break;
             case "go_guard":
                 currentStep = 6;
                 break;
             case "go_engineer":
                 currentStep = 10;
+                changeImage("stage3_10");
                 break;
             case "go_assistant":
                 currentStep = 14;
+                changeImage("stage3_14");
                 break;
             case "go_captain":
                 currentStep = 18;
@@ -219,5 +241,15 @@ public class StageActivity3 extends AppCompatActivity {
 
         // загрузка нового шага
         loadQuestStep(currentStep);
+    }
+    private void changeImage(String imageName) {
+        ImageView imageView = findViewById(R.id.imageView);  // Получаем ссылку на ImageView
+
+        // Преобразуем имя изображения в ресурс из папки drawable
+        int imageResId = getResources().getIdentifier(imageName, "drawable", getPackageName());
+        if (imageResId != 0) {
+            imageView.setVisibility(View.VISIBLE);  // Показываем изображение
+            imageView.setImageResource(imageResId);  // Загружаем изображение
+        }
     }
 }

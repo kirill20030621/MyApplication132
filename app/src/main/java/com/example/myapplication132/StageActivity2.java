@@ -36,6 +36,7 @@ public class StageActivity2 extends AppCompatActivity {
         actionButtonsLayout = findViewById(R.id.action_buttons_layout);
         btnEvidence = findViewById(R.id.btnEvidence);
 
+
         evidences = getIntent().getStringArrayListExtra("evidences");
         if (evidences == null) {
             evidences = new ArrayList<>();
@@ -44,6 +45,8 @@ public class StageActivity2 extends AppCompatActivity {
         if (player == null) {
             player = new Player();  // eсли объект не был передан, создаем новый
         }
+
+        changeImage("stage2_3");
 
         btnEvidence.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -119,9 +122,11 @@ public class StageActivity2 extends AppCompatActivity {
 
     // Обработка действий
     private void handleAction(String actionId) {
+        ImageView imageView = findViewById(R.id.imageView);
         switch (actionId) {
             case "go_to_next_step":
                 currentStep++;  // переход к следующему шагу
+
                 break;
 
             case "go_for_interrogation":
@@ -133,55 +138,70 @@ public class StageActivity2 extends AppCompatActivity {
 
             case "back_to_lab":
                 currentStep = 3;
+                changeImage("stage2_3");
 
                 break;
             case "inspect_device":
                 currentStep = 4;
+                changeImage("stage2_4");
                 break;
             case "option1":
                 currentStep = 5;
+                changeImage("stage2_5");
                 break;
             case "option2":
-                //Log.d("playerintel4", "Player intellect: " + player.getIntellect());
+
                 if(player.checkIntelect()){
                     currentStep = 6;
+                    changeImage("stage2_6");
                     break;}
                 else {
                     currentStep = 7;
+                    changeImage("stage2_6");
                     break;
                 }
             case "back":
                 currentStep = 4;
+                changeImage("stage2_4");
                 break;
             case "check_floor":
                 currentStep = 8;
+                changeImage("stage2_8");
                 break;
             case "option3":
                 currentStep = 9;
+                changeImage("stage2_5");
                 break;
             case "option4":
                 if(player.checkAttention()){
                     currentStep = 10;
+                    changeImage("stage2_9");
                     break;}
                 else {
                     currentStep = 11;
+                    changeImage("stage2_9");
                     break;
                 }
             case "back2":
                 currentStep = 8;
+                changeImage("stage2_8");
                 break;
             case "talk_to_guard":
                 currentStep = 12;
+                changeImage("stage2_13");
                 break;
             case "option5":
                 currentStep = 13;
+                changeImage("stage2_5");
                 break;
             case "option6":
                 if(player.checkCharm()){
                     currentStep = 14;
+                    changeImage("stage2_13");
                     break;}
                 else {
                     currentStep = 15;
+                    changeImage("stage2_13");
                     break;
                 }
             case "back3":
@@ -195,6 +215,15 @@ public class StageActivity2 extends AppCompatActivity {
         // Загрузка нового шага
         loadQuestStep(currentStep);
     }
+    private void changeImage(String imageName) {
+        ImageView imageView = findViewById(R.id.imageView);  // Получаем ссылку на ImageView
 
+        // Преобразуем имя изображения в ресурс из папки drawable
+        int imageResId = getResources().getIdentifier(imageName, "drawable", getPackageName());
+        if (imageResId != 0) {
+            imageView.setVisibility(View.VISIBLE);  // Показываем изображение
+            imageView.setImageResource(imageResId);  // Загружаем изображение
+        }
+    }
 
 }

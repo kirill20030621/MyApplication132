@@ -7,6 +7,14 @@
     android:background="@drawable/fon3"
     >
 
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:visibility="gone"
+        android:layout_gravity="center"
+         />
+
     <!-- TextView для отображения текущего текста квеста -->
     <TextView
         android:id="@+id/quest_text"

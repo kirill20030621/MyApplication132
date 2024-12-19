@@ -4,7 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,6 +35,7 @@ public class StageActivity1 extends AppCompatActivity {
 
         questText = findViewById(R.id.quest_text);
         actionButtonsLayout = findViewById(R.id.action_buttons_layout);
+        changeImage("stage1_1");
 
        // player = (Player) getIntent().getSerializableExtra("player");
         //if (player == null) {
@@ -102,8 +106,10 @@ public class StageActivity1 extends AppCompatActivity {
 
     // Обработка действий
     private void handleAction(String actionId) {
+        ImageView imageView = findViewById(R.id.imageView);
         switch (actionId) {
             case "go":
+                changeImage("stage1_2");
                 currentStep++;  // переход к следующему шагу
                 break;
 
@@ -121,5 +127,17 @@ public class StageActivity1 extends AppCompatActivity {
 
         // Загрузка нового шага
         loadQuestStep(currentStep);
+    }
+    private void changeImage(String imageName) {
+        ImageView imageView = findViewById(R.id.imageView);  // Получаем ссылку на ImageView
+
+        // Преобразуем имя изображения в ресурс из папки drawable
+        int imageResId = getResources().getIdentifier(imageName, "drawable", getPackageName());
+        if (imageResId != 0) {
+            imageView.setVisibility(View.VISIBLE);  // Показываем изображение
+            imageView.setImageResource(imageResId);  // Загружаем изображение
+        } else {
+            Log.e("StageActivity", "Image not found: " + imageName);
+        }
     }
 }
